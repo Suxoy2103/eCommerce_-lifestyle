@@ -68,7 +68,7 @@
                         <div class="collapse navbar-collapse justify-content-between" id="navbarNav"> 
                             <ul class="navbar-nav alt-font navbar-left justify-content-end">
                                 <li class="nav-item">
-                                    <a href="demo-fashion-store.html" class="nav-link">Home</a>
+                                    <a href="{% url "main:index" %}" class="nav-link">Home</a>
                                 </li>
                                 <li class="nav-item dropdown submenu">
                                     <a href="demo-fashion-store-shop.html" class="nav-link">Shop</a>
@@ -151,7 +151,7 @@
                                             <div class="row row-cols-2 row-cols-lg-6 row-cols-md-3 row-cols-sm-2 md-mx-0 align-items-center justify-content-center">
                                                 <div class="col md-mb-25px">
                                                     <a href="demo-fashion-store-collection.html" class="justify-content-center mb-10px"> 
-                                                        <img src="https://via.placeholder.com/190x140" class="border-radius-4px w-100" alt="">  
+                                                        <img src="{% static "vendors/images/banners/fashion-store-menu-category-01.jpg" %}" class="border-radius-4px w-100" alt="">  
                                                     </a>
                                                     <a href="demo-fashion-store-collection.html" class="btn btn-hover-animation fw-500 text-uppercase-inherit justify-content-center pt-0 pb-0">
                                                         <span> 
@@ -162,7 +162,7 @@
                                                 </div>
                                                 <div class="col md-mb-25px">
                                                     <a href="demo-fashion-store-collection.html" class="justify-content-center mb-10px"> 
-                                                        <img src="https://via.placeholder.com/190x140" class="border-radius-4px w-100" alt="">  
+                                                        <img src="{% static "vendors/images/banners/fashion-store-menu-category-02.jpg" %}" class="border-radius-4px w-100" alt="">  
                                                     </a>
                                                     <a href="demo-fashion-store-collection.html" class="btn btn-hover-animation fw-500 text-uppercase-inherit justify-content-center pt-0 pb-0">
                                                         <span> 
@@ -173,7 +173,7 @@
                                                 </div>
                                                 <div class="col md-mb-25px">
                                                     <a href="demo-fashion-store-collection.html" class="justify-content-center mb-10px"> 
-                                                        <img src="https://via.placeholder.com/190x140" class="border-radius-4px w-100" alt="">  
+                                                        <img src="{% static "vendors/images/banners/fashion-store-menu-category-03.jpg" %}" class="border-radius-4px w-100" alt="">  
                                                     </a>
                                                     <a href="demo-fashion-store-collection.html" class="btn btn-hover-animation fw-500 text-uppercase-inherit justify-content-center pt-0 pb-0">
                                                         <span> 
@@ -184,7 +184,7 @@
                                                 </div>
                                                 <div class="col sm-mb-25px">
                                                     <a href="demo-fashion-store-collection.html" class="justify-content-center mb-10px"> 
-                                                        <img src="https://via.placeholder.com/190x140" class="border-radius-4px w-100" alt="">  
+                                                        <img src="{% static "vendors/images/banners/fashion-store-menu-category-04.jpg" %}" class="border-radius-4px w-100" alt="">  
                                                     </a>
                                                     <a href="demo-fashion-store-collection.html" class="btn btn-hover-animation fw-500 text-uppercase-inherit justify-content-center pt-0 pb-0">
                                                         <span> 
@@ -195,7 +195,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <a href="demo-fashion-store-collection.html" class="justify-content-center mb-10px">
-                                                        <img src="https://via.placeholder.com/190x140" class="border-radius-4px w-100" alt="">
+                                                        <img src="{% static "vendors/images/banners/fashion-store-menu-category-05.jpg" %}" class="border-radius-4px w-100" alt="">
                                                     </a>
                                                     <a href="demo-fashion-store-collection.html" class="btn btn-hover-animation fw-500 text-uppercase-inherit justify-content-center pt-0 pb-0">
                                                         <span>
@@ -206,7 +206,7 @@
                                                 </div>
                                                 <div class="col">
                                                     <a href="demo-fashion-store-collection.html" class="justify-content-center mb-10px"> 
-                                                        <img src="https://via.placeholder.com/190x140" class="border-radius-4px w-100" alt="">  
+                                                        <img src="{% static "vendors/images/banners/fashion-store-menu-category-06.jpg" %}" class="border-radius-4px w-100" alt="">  
                                                     </a>
                                                     <a href="demo-fashion-store-collection.html" class="btn btn-hover-animation fw-500 text-uppercase-inherit justify-content-center pt-0 pb-0">
                                                         <span>
@@ -228,7 +228,7 @@
                                     <a href="javascript:void(0);" class="nav-link">Pages</a>
                                     <i class="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink3" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3"> 
-                                        <li><a href="demo-fashion-store-about.html">About</a></li>
+                                        <li><a href="{% url "main:about" %}">About</a></li>
                                         <li><a href="demo-fashion-store-faq.html">Faq</a></li>
                                         <li><a href="demo-fashion-store-wishlist.html">Wishlist</a></li>
                                         <li><a href="demo-fashion-store-account.html">Account</a></li>
