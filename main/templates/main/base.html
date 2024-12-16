@@ -71,7 +71,7 @@
                                     <a href="{% url "main:index" %}" class="nav-link">Home</a>
                                 </li>
                                 <li class="nav-item dropdown submenu">
-                                    <a href="demo-fashion-store-shop.html" class="nav-link">Shop</a>
+                                    <a href="{% url "catalog:index" %}" class="nav-link">Shop</a>
                                     <i class="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink1" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <div class="dropdown-menu submenu-content" aria-labelledby="navbarDropdownMenuLink1"> 
                                         <div class="d-lg-flex mega-menu m-auto flex-column">
@@ -317,11 +317,11 @@
                     <!-- start footer column -->
                     <div class="col"> 
                         <ul class="footer-navbar text-center text-md-end"> 
-                            <li class="nav-item"><a href="demo-fashion-store.html" class="nav-link">Home</a></li>
-                            <li class="nav-item"><a href="demo-fashion-store-shop.html" class="nav-link">Shop</a></li>
+                            <li class="nav-item"><a href="{% url "main:index" %}" class="nav-link">Home</a></li>
+                            <li class="nav-item"><a href="{% url "catalog:index" %}" class="nav-link">Shop</a></li>
                             <li class="nav-item"><a href="demo-fashion-store-collection.html" class="nav-link">Collection</a></li>
                             <li class="nav-item"><a href="demo-fashion-store-magazine.html" class="nav-link">Magazine</a></li>
-                            <li class="nav-item"><a href="demo-fashion-store-about.html" class="nav-link">About</a></li> 
+                            <li class="nav-item"><a href="{% url "main:about" %}" class="nav-link">About</a></li> 
                             <li class="nav-item"><a href="demo-fashion-store-contact.html" class="nav-link">Contact</a></li> 
                         </ul>
                     </div>
@@ -335,11 +335,11 @@
                     <div class="col-6 col-lg-2 col-sm-4 xs-mb-30px order-sm-3 order-lg-2">
                         <span class="fw-500 d-block text-white mb-5px fs-17">Categories</span>
                         <ul>
-                            <li><a href="demo-fashion-store-shop.html">Men</a></li>
-                            <li><a href="demo-fashion-store-shop.html">Women</a></li>
-                            <li><a href="demo-fashion-store-shop.html">Accessories</a></li>
-                            <li><a href="demo-fashion-store-shop.html">Shoes</a></li>
-                            <li><a href="demo-fashion-store-shop.html">Dresses</a></li>
+                            <li><a href="{% url "catalog:index" %}">Men</a></li>
+                            <li><a href="{% url "catalog:index" %}">Women</a></li>
+                            <li><a href="{% url "catalog:index" %}">Accessories</a></li>
+                            <li><a href="{% url "catalog:index" %}">Shoes</a></li>
+                            <li><a href="{% url "catalog:index" %}">Dresses</a></li>
                         </ul>
                     </div>
                     <!-- end footer column -->
@@ -347,7 +347,7 @@
                     <div class="col-6 col-lg-2 col-sm-4 xs-mb-30px order-sm-3 order-lg-2">
                         <span class="fw-500 d-block text-white mb-5px fs-17">Information</span>
                         <ul>
-                            <li><a href="demo-fashion-store-about.html">About us</a></li>
+                            <li><a href="{% url "main:about" %}">About us</a></li>
                             <li><a href="demo-fashion-store-contact.html">Contact us</a></li>
                             <li><a href="#">Terms & conditions</a></li>
                             <li><a href="#">Shipping & delivery</a></li>
