@@ -1,0 +1,32 @@
+[
+  {
+    "model": "goods.categories",
+    "pk": 2,
+    "fields": { "name": "all products", "slug": "all-products" }
+  },
+  {
+    "model": "goods.categories",
+    "pk": 3,
+    "fields": { "name": "Man", "slug": "man" }
+  },
+  {
+    "model": "goods.categories",
+    "pk": 4,
+    "fields": { "name": "Women", "slug": "women" }
+  },
+  {
+    "model": "goods.categories",
+    "pk": 5,
+    "fields": { "name": "Accessories", "slug": "accessories" }
+  },
+  {
+    "model": "goods.categories",
+    "pk": 8,
+    "fields": { "name": "Divided", "slug": "divided" }
+  },
+  {
+    "model": "goods.categories",
+    "pk": 9,
+    "fields": { "name": "Kids", "slug": "kids" }
+  }
+]

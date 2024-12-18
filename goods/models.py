@@ -23,7 +23,6 @@ class SubCategories(models.Model):
     categories = models.ManyToManyField(Categories, verbose_name="Category", related_name="sub_categories")
 
     class Meta:
-        ordering = ['name']
 
         db_table = 'subcategory'
         verbose_name = 'SubCategory'
@@ -31,6 +30,8 @@ class SubCategories(models.Model):
 
     def __str__(self):
         return self.name
+
+
 
 
 class Products(models.Model):
@@ -45,12 +46,12 @@ class Products(models.Model):
     category = models.ForeignKey(to=Categories, on_delete=models.CASCADE, verbose_name='Category', related_name='products', default='1')
     subcategory = models.ForeignKey(to=SubCategories, on_delete=models.CASCADE, verbose_name='SubCategory', related_name='products')
 
+
     class Meta:
-        ordering = ['subcategory__name', 'name']
 
         db_table = "product"
         verbose_name = "Product"
         verbose_name_plural = "Products"
 
     def __str__(self):
-        return f"{self.name} Quantity - {self.quantity} ({self.subcategory})"
+        return f'{self.name} Quantity - {self.quantity}'

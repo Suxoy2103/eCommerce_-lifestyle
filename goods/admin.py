@@ -2,6 +2,7 @@ from django.contrib import admin
 from goods.models import Categories, Products, SubCategories
 
 
+
 @admin.register(SubCategories)
 class SubCategoriesAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
@@ -15,5 +16,4 @@ class CategoriesAdmin(admin.ModelAdmin):
 @admin.register(Products)
 class ProductsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
-
 
