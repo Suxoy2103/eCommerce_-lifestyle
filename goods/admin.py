@@ -1,19 +1,15 @@
 from django.contrib import admin
-from goods.models import Categories, Products, SubCategories
+
+from django_mptt_admin.admin import DjangoMpttAdmin
+from goods.models import Product, Category
 
 
-
-@admin.register(SubCategories)
-class SubCategoriesAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ["name"]}
-
-
-@admin.register(Categories)
-class CategoriesAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ['name']}
-
-
-@admin.register(Products)
+@admin.register(Product)
 class ProductsAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
 
+
+@admin.register(Category)
+class CategoryAdmin(DjangoMpttAdmin):
+    prepopulated_fields = {"slug": ["name"]}
+    ordering = ['order']

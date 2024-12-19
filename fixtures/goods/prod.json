@@ -1,0 +1,58 @@
+[
+  {
+    "model": "goods.product",
+    "pk": 1,
+    "fields": {
+      "name": "Regular Fit Wool-Blend Shacket",
+      "slug": "regular-fit-wool-blend-shacket",
+      "description": "New Arrival\r\nRegular-fit shirt jacket in a felted wool blend with a comfortable, classic silhouette. Collar, zipper at front, and a visible seam at back. Diagonal welt front pockets with a concealed snap fastener and an inner pocket with a snap fastener. Straight-cut hem. Lined.",
+      "image": "",
+      "price": "59.50",
+      "discount": "15.00",
+      "quantity": 9,
+      "category": 3
+    }
+  },
+  {
+    "model": "goods.product",
+    "pk": 2,
+    "fields": {
+      "name": "Regular Fit Jacket",
+      "slug": "regular-fit-jacket",
+      "description": "New Arrival\r\nRegular-fit jacket with a comfortable, classic silhouette. Collar, zipper at front, and a visible, vertical seam at back. Diagonal side pockets with a concealed snap fastener, an open inner pocket, and long sleeves with button at cuffs. Lined.",
+      "image": "",
+      "price": "72.25",
+      "discount": "15.00",
+      "quantity": 5,
+      "category": 3
+    }
+  },
+  {
+    "model": "goods.product",
+    "pk": 3,
+    "fields": {
+      "name": "Wide High Jeans",
+      "slug": "wide-high-jeans",
+      "description": "29.75",
+      "image": "",
+      "price": "29.75",
+      "discount": "15.00",
+      "quantity": 14,
+      "category": 4
+    }
+  },
+  {
+    "model": "goods.product",
+    "pk": 4,
+    "fields": {
+      "name": "Wide Ultra High Jeans",
+      "slug": "wide-ultra-high-jeans",
+      "description": "5-pocket jeans in rigid cotton denim that feels firm at first, softening and relaxing with wear. Regular fit from waist to hip and straight, wide cut from thigh to hem. Extra-high waist and zip fly with button. Straight, regular-length legs, designed to fall at top of foot with little or no stacking. The wide-leg jean is a wardrobe essential.",
+      "image": "",
+      "price": "38.25",
+      "discount": "15.00",
+      "quantity": 7,
+      "category": 4
+    }
+  }
+]

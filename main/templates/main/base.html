@@ -77,14 +77,16 @@
                                         <div class="d-lg-flex mega-menu m-auto flex-column">
                                             <div class="row row-cols-1 row-cols-lg-5 row-cols-md-3 row-cols-sm-3 mb-50px md-mb-25px xs-mb-15px">
                                               {% for category in categories %}
-                                                <div class="col">
-                                                    <ul>
-                                                        <li class="sub-title">{{ category.name }}</li>
-                                                        {% for sub_category in category.sub_categories.all %}
-                                                          <li><a href="{% url "goods:index" %}">{{ sub_category.name }}</a></li>
-                                                        {% endfor %}  
-                                                    </ul>
-                                                </div>
+                                                  <div class="col">
+                                                      <ul>
+                                                          <li class="sub-title">{{ category.name }}</li>
+                                                          {% if category.children.exists %}
+                                                            {% for child in category.children.all %}
+                                                              <li><a href="{% url "goods:index" %}">{{ child.name }}</a></li>
+                                                            {% endfor %}  
+                                                          {% endif %}
+                                                      </ul>
+                                                  </div>
                                               {% endfor %} 
                                             </div>
                                             <div class="row row-cols-1 row-cols-sm-2">

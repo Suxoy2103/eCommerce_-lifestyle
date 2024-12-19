@@ -4,6 +4,7 @@
 
 {% block content %}
         <!-- start section -->
+        {% for good in goods %}
         <section class="top-space-margin bg-gradient-very-light-gray pt-20px pb-20px ps-45px pe-45px sm-ps-15px sm-pe-15px">
             <div class="container-fluid">
                 <div class="row align-items-center"> 
@@ -85,7 +86,7 @@
                     </div>
                     <div class="col-12 col-lg-5 product-info">
                         <span class="fw-500 text-dark-gray d-block">Zalando</span>
-                        <h4 class="alt-font text-dark-gray fw-500 mb-5px">Relaxed corduroy shirt</h5>
+                        <h4 class="alt-font text-dark-gray fw-500 mb-5px">{{ good.name }}</h5>
                             <div class="d-block d-sm-flex align-items-center mb-15px">
                                 <div class="me-10px xs-me-0">
                                     <a href="#tab" class="section-link ls-minus-1px icon-small">
@@ -100,7 +101,7 @@
                                 <div><span class="text-dark-gray fw-500">SKU: </span>M492300</div>
                             </div>
                             <div class="product-price mb-10px">
-                                <span class="text-dark-gray fs-28 xs-fs-24 fw-700 ls-minus-1px"><del class="text-medium-gray me-10px fw-400">$85.00</del>$65.00</span>
+                                <span class="text-dark-gray fs-28 xs-fs-24 fw-700 ls-minus-1px"><del class="text-medium-gray me-10px fw-400">${{ good.price }}</del>$65.00</span>
                             </div>
                             <p>Lorem ipsum is simply dummy text of the printing and typesetting industry lorem ipsum standard.</p>
                             <div class="d-flex align-items-center mb-20px">
