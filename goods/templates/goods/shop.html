@@ -34,7 +34,7 @@
                                   <div class="shop-box mb-10px">
                                       <div class="shop-image mb-20px">
                                           <a href="demo-fashion-store-single-product.html">
-                                              <img src="{% static product.image %}" alt=""> 
+                                              <img src="{{ product.images.first.image.url }}" alt="{{ product.images.first.alt_text }}">
                                               <span class="lable new">New</span>
                                               <div class="shop-overlay bg-gradient-gray-light-dark-transparent"></div>
                                           </a>

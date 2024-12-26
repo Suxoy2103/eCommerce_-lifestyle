@@ -7,7 +7,7 @@ def shop(request):
     goods = Product.objects.all()
     context = {
         "title": "All products - Shop | Lifestyle",
-        "goods": 'goods'
+        "goods": goods
         }
     return render(request, 'goods/shop.html', context)
 
