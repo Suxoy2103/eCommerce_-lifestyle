@@ -12,7 +12,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Category(MPTTModel):
     name = models.CharField(max_length=150, verbose_name="Name")
     slug = models.SlugField(
-        max_length=200, unique=True, blank=True, null=True, verbose_name="URL"
+        max_length=200, blank=True, null=True, verbose_name="URL"
     )
     description = models.TextField(max_length=300, blank=True, null=True, verbose_name="Description category")
 
@@ -36,6 +36,7 @@ class Category(MPTTModel):
         verbose_name = "Category"
         verbose_name_plural = "Categories"
         ordering = ['order']
+        unique_together = ('slug', 'parent')
 
     def get_absolute_url(self):
         return reverse("product_by_category", kwargs={"slug": self.slug})
@@ -43,13 +44,13 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-        """add parent slug to slug"""
-        if self.parent:
-            self.slug = f"{slugify(self.parent.name)}-{slugify(self.name)}"
-        # self.slug = unique_slugify(self, self.name, self.slug)
+    # def save(self, *args, **kwargs):
+    #     """add parent slug to slug"""
+    #     if self.parent:
+    #         self.slug = f"{slugify(self.parent.name)}-{slugify(self.name)}"
+    #     # self.slug = unique_slugify(self, self.name, self.slug)
 
-        super().save(*args, **kwargs)
+    #     super().save(*args, **kwargs)
 
 
 class Product(models.Model):
