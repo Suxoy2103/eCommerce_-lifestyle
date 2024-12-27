@@ -1,11 +1,12 @@
 from tkinter import ACTIVE
+import uuid
 from django.db import models
 
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 
-from .utils import unique_slugify
 
 
 class Category(MPTTModel):
@@ -35,6 +36,9 @@ class Category(MPTTModel):
         verbose_name = "Category"
         verbose_name_plural = "Categories"
         ordering = ['order']
+
+    def get_absolute_url(self):
+        return reverse("product_by_category", kwargs={"slug": self.slug})
 
     def __str__(self):
         return self.name
@@ -80,6 +84,16 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name} Quantity - {self.quantity}'
 
+    def display_id(self):
+        prefix = self.category.get_root()[:1]
+        unique_code = str(uuid.uuid4().hex)[:6].upper()
+        return f"{prefix}{unique_code}"
+    
+    def sell_price(self):
+        if self.discount:
+          return round(self.price - (self.price * self.discount / 100), 2)
+        
+        return self.price
 
 class ProductImage(models.Model):
     """Model for product images"""
