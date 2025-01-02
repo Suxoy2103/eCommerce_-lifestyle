@@ -28,32 +28,23 @@
                                 <div class="swiper product-image-slider" data-slider-options='{ "spaceBetween": 10, "loop": true, "autoplay": { "delay": 2000, "disableOnInteraction": false }, "watchOverflow": true, "navigation": { "nextEl": ".slider-product-next", "prevEl": ".slider-product-prev" }, "thumbs": { "swiper": { "el": ".product-image-thumb", "slidesPerView": "auto", "spaceBetween": 15, "direction": "vertical", "navigation": { "nextEl": ".swiper-thumb-next", "prevEl": ".swiper-thumb-prev" } } } }' data-thumb-slider-md-direction="horizontal">
                                     <div class="swiper-wrapper">
                                         <!-- start slider item -->
-                                        <div class="swiper-slide gallery-box">
-                                            {% if product.images %}
-                                              {% for image in images %}
-                                                <a href="{{ image.url }}" data-group="lightbox-gallery" title="{{ product.name }}">
-                                                    <img class="w-100" src="{{ image.url }}" alt="{{ product.name }}">
-                                                </a>
-                                              {% endfor %}
-                                            {% else %}
-                                              <a href="https://via.placeholder.com/600x765" data-group="lightbox-gallery" title="{{ product.name }}">
-                                                <img class="w-100" src=" {% static "https://via.placeholder.com/600x765" %}" alt="{{ product.name }}">
+                                         {% for image in product.images.all %}
+                                          <div class="swiper-slide gallery-box">
+                                              <a href="{{ image.image.url }}" data-group="lightbox-gallery" title="{{ product.name }}">
+                                                  <img class="w-100" src="{{ image.image.url }}" alt="{{ image.alt_text }}">
                                               </a>
-                                            {% endif %}
-                                          
-                                        </div>
+                                          </div>
+                                         {% endfor %}
+                                        <!-- end slider item -->
                                     </div>
                                 </div> 
                             </div>
                             <div class="col-12 col-lg-2 order-lg-1 position-relative single-product-thumb">
                                 <div class="swiper-container product-image-thumb slider-vertical">
                                     <div class="swiper-wrapper">
-                                        <div class="swiper-slide"><img class="w-100" src="https://via.placeholder.com/600x765" alt=""></div>
-                                        <div class="swiper-slide"><img class="w-100" src="https://via.placeholder.com/600x765" alt=""></div>
-                                        <div class="swiper-slide"><img class="w-100" src="https://via.placeholder.com/600x765" alt=""></div>
-                                        <div class="swiper-slide"><img class="w-100" src="https://via.placeholder.com/600x765" alt=""></div>
-                                        <div class="swiper-slide"><img class="w-100" src="https://via.placeholder.com/600x765" alt=""></div>
-                                        <div class="swiper-slide"><img class="w-100" src="https://via.placeholder.com/600x765" alt=""></div>
+                                      {% for image in product.images.all %} 
+                                        <div class="swiper-slide"><img class="w-100" src="{{ image.image.url }}" alt="{{ image.alt_text }}"></div>
+                                      {% endfor %}
                                     </div>
                                 </div> 
                             </div>
@@ -73,10 +64,10 @@
                                     </a>
                                 </div>
                                 <a href="#tab" class="me-25px text-dark-gray fw-500 section-link xs-me-0">165 Reviews</a>
-                                <div><span class="text-dark-gray fw-500">SKU: </span>{{ display_id }}</div>
+                                <div><span class="text-dark-gray fw-500">SKU: {{ product.sku_id }}</span></div>
                             </div>
                             <div class="product-price mb-10px">
-                                <span class="text-dark-gray fs-28 xs-fs-24 fw-700 ls-minus-1px"><del class="text-medium-gray me-10px fw-400">${{ product.price }}</del>$65.00</span>
+                                <span class="text-dark-gray fs-28 xs-fs-24 fw-700 ls-minus-1px"><del class="text-medium-gray me-10px fw-400">${{ product.price }}</del>${{ product.sell_price }}</span>
                             </div>
                             <p>{{  product.description  }}</p>
                             <div class="d-flex align-items-center mb-20px">

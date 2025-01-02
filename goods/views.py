@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from dal import autocomplete
 
 from .models import Product
@@ -12,6 +12,8 @@ def shop(request):
     return render(request, 'goods/shop.html', context)
 
 
-def product(request):
-    return render(request, 'goods/product.html')
+def product_detail(request, product, category_slugs):
+    product = get_object_or_404(Product, slug=product)
+    context = {'product': product}
+    return render(request, 'goods/product_detail.html', context)
 

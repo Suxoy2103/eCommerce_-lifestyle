@@ -8,7 +8,6 @@ from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
 
 
-
 class Category(MPTTModel):
     name = models.CharField(max_length=150, verbose_name="Name")
     slug = models.SlugField(
@@ -38,8 +37,17 @@ class Category(MPTTModel):
         ordering = ['order']
         unique_together = ('slug', 'parent')
 
-    def get_absolute_url(self):
-        return reverse("product_by_category", kwargs={"slug": self.slug})
+    # def get_absolute_url(self):
+    #     return reverse("product_by_category", kwargs={"slug": self.slug})
+
+    def get_slug_chain(self):
+        slugs = []
+        current_node = self
+        while current_node:
+            slugs.append(current_node.slug)
+            current_node = current_node.parent
+        return "/".join(reversed(slugs))
+
 
     def __str__(self):
         return self.name
@@ -60,6 +68,7 @@ class Product(models.Model):
 
     name = models.CharField(max_length=150, unique=True, verbose_name="Name")
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name="URL")
+    sku_id = models.CharField(max_length=10, blank=True, null=True, verbose_name='SKU')
 
     description = models.TextField(blank=True, null=True, verbose_name='Description')
 
@@ -76,6 +85,16 @@ class Product(models.Model):
 
     is_active = models.CharField(max_length=3, choices=Status.choices, default=Status.ACTIVE, verbose_name='Status')
 
+    def sell_price(self):
+        if self.discount:
+            return round(self.price - (self.price * self.discount / 100), 2)
+
+        return self.price
+
+    def get_absolute_url(self):
+        category_slugs = self.category.get_slug_chain()
+        return reverse("goods:product_detail", args=[category_slugs, self.slug])
+
     class Meta:
 
         db_table = "products"
@@ -85,16 +104,14 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name} Quantity - {self.quantity}'
 
-    def display_id(self):
-        prefix = self.category.get_root()[:1]
-        unique_code = str(uuid.uuid4().hex)[:6].upper()
-        return f"{prefix}{unique_code}"
-    
-    def sell_price(self):
-        if self.discount:
-          return round(self.price - (self.price * self.discount / 100), 2)
-        
-        return self.price
+    def save(self, *args, **kwargs):
+        if not self.sku_id:
+            root = self.category.get_root()
+            prefix = root.name[:1].upper()
+            unique_code = str(uuid.uuid4().hex)[:6].upper()
+            self.sku_id = f"{prefix}{unique_code}"
+        super(Product, self).save(*args, **kwargs)
+
 
 class ProductImage(models.Model):
     """Model for product images"""

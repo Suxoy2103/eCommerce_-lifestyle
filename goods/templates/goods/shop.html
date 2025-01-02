@@ -33,7 +33,7 @@
                               <li class="grid-item">
                                   <div class="shop-box mb-10px">
                                       <div class="shop-image mb-20px">
-                                          <a href="demo-fashion-store-single-product.html">
+                                          <a href="{{ product.get_absolute_url}}">
                                               {% if product.images %}
                                                 <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
                                               {% else %}
@@ -59,7 +59,7 @@
                                           </div>
                                       </div>
                                       <div class="shop-footer text-center">
-                                          <a href="demo-fashion-store-single-product.html" class="alt-font text-dark-gray fs-19 fw-500">{{ product.name }}</a>
+                                          <a href="{{ product.get_absolute_url }}" class="alt-font text-dark-gray fs-19 fw-500">{{ product.name }}</a>
                                           {% if product.discount %}
                                             <div class="price lh-22 fs-16"><del>${{ product.price }}</del>${{ product.sell_price }}</div>
                                           {% else %}
