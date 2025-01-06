@@ -33,8 +33,8 @@
                               <li class="grid-item">
                                   <div class="shop-box mb-10px">
                                       <div class="shop-image mb-20px">
-                                          <a href="{{ product.get_absolute_url}}">
-                                              {% if product.images %}
+                                        {% if product.images.all %}
+                                          <a href="{{ product.get_absolute_url }}">
                                                 <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
                                               {% else %}
                                                 <img src="{% static "vendors/images/Not found image.png" %}" alt="">
@@ -43,7 +43,7 @@
                                               <div class="shop-overlay bg-gradient-gray-light-dark-transparent"></div>
                                           </a>
                                           <div class="shop-buttons-wrap">
-                                              <a href="demo-fashion-store-single-product.html" class="alt-font btn btn-small btn-box-shadow btn-white btn-round-edge left-icon add-to-cart">
+                                              <a href="{{ product.get_absolute_url }}" class="alt-font btn btn-small btn-box-shadow btn-white btn-round-edge left-icon add-to-cart">
                                                   <i class="feather icon-feather-shopping-bag"></i><span class="quick-view-text button-text">Add to cart</span>
                                               </a>
                                           </div>

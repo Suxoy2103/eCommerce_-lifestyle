@@ -11,8 +11,7 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Category(MPTTModel):
     name = models.CharField(max_length=150, verbose_name="Name")
     slug = models.SlugField(
-        max_length=200, blank=True, null=True, verbose_name="URL"
-    )
+        max_length=200, blank=True, null=True, verbose_name="URL",)
     description = models.TextField(max_length=300, blank=True, null=True, verbose_name="Description category")
 
     order = models.PositiveIntegerField(default=1, verbose_name='Order')
@@ -35,10 +34,16 @@ class Category(MPTTModel):
         verbose_name = "Category"
         verbose_name_plural = "Categories"
         ordering = ['order']
-        unique_together = ('slug', 'parent')
 
-    # def get_absolute_url(self):
-    #     return reverse("product_by_category", kwargs={"slug": self.slug})
+        constraints = [
+            models.UniqueConstraint(fields=["slug"], name="unique_slug_for_category", condition=models.Q(parent__isnull=True))
+        ]
+
+        constraints.append(
+            models.UniqueConstraint(
+                fields=["slug", "parent"], name="unique_slug_for_subcategory"
+            )
+        )
 
     def get_slug_chain(self):
         slugs = []
@@ -48,6 +53,8 @@ class Category(MPTTModel):
             current_node = current_node.parent
         return "/".join(reversed(slugs))
 
+    def get_absolute_url(self):
+        return reverse("goods:product_by_category", kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name
