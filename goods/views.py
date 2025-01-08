@@ -3,13 +3,19 @@ from django.shortcuts import get_object_or_404, render
 
 from .models import Product, Category
 
-def shop(request):
-    goods = Product.objects.all()
-    context = {
-        "title": "All products - Shop | Lifestyle",
-        "goods": goods
-        }
-    return render(request, 'goods/shop.html', context)
+
+class ProductListView(ListView):
+    model = Product
+    template_name = 'goods/shop.html'
+    context_object_name = 'goods'
+    paginate_by = 4
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["title"] = "All products - Shop | Lifestyle"
+        return context
+    
 
 
 def product_detail(request, product, category_slugs):
@@ -21,16 +27,29 @@ class ProductFromCategory(ListView):
     template_name = "goods/shop.html"
     context_object_name = 'goods'
     category = None
+    paginate_by = 4
 
     def get_queryset(self):
-        self.category = Category.objects.filter(slug=self.kwargs['slug'])
-        queryset = Product.objects.filter(category__slug=self.category.slug)
-        # if not queryset:
-        #     sub_cat = Category.objects.filter(parent=self.category)
-        #     queryset = Product.objects.filter(category__in=sub_cat)
-        return queryset
+      slugs = self.kwargs['slug'].split('/')
+      category = Category.objects.filter(slug=slugs[0], parent=None).first()
+
+      if not category:
+          pass
+      
+      for slug in slugs[1:]:
+          category = category.children.filter(slug=slug).first()
+          if not category:
+              pass
+      
+      self.category = category
+      
+      categories = category.get_descendants(include_self=True)
+
+      queryset = Product.objects.filter(category__in=categories)
+
+      return queryset
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = f"Записи из категории: {self.category.title}"
+        context['title'] = f"{self.category.parent.name}`s {self.category.name} | Lifestyle"
         return context

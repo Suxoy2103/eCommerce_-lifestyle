@@ -59,7 +59,7 @@
                                           </div>
                                       </div>
                                       <div class="shop-footer text-center">
-                                          <a href="{{ product.get_absolute_url }}" class="alt-font text-dark-gray fs-19 fw-500">{{ product.name }}</a>
+                                          <a href="{{ product.get_absolute_url }}" class="alt-font text-dark-gray fs-19 fw-500">{{ product.name|truncatechars:40 }}</a>
                                           {% if product.discount %}
                                             <div class="price lh-22 fs-16"><del>${{ product.price }}</del>${{ product.sell_price }}</div>
                                           {% else %}
@@ -74,16 +74,7 @@
 
                         </ul>
                             <!-- pagination -->
-                        <div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
-                            <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
-                                <li class="page-item"><a class="page-link" href="#"><i class="feather icon-feather-arrow-left fs-18 d-xs-none"></i></a></li>
-                                <li class="page-item"><a class="page-link" href="#">01</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">02</a></li>
-                                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                                <li class="page-item"><a class="page-link" href="#">04</a></li>
-                                <li class="page-item"><a class="page-link" href="#"><i class="feather icon-feather-arrow-right fs-18 d-xs-none"></i></a></li>
-                            </ul>
-                        </div>
+                        {% include "main/pagination.html" %}
                             <!-- end pagination -->
                     </div>
                     <div class="col-xxl-2 col-lg-3 shop-sidebar" data-anime='{ "el": "childs", "translateY": [-15, 0], "opacity": [0,1], "duration": 300, "delay": 0, "staggervalue": 300, "easing": "easeOutQuad" }'>

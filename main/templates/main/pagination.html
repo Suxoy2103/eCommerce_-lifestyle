@@ -1,0 +1,36 @@
+{% load static %}
+
+
+    <!-- pagination -->
+<div class="w-100 d-flex mt-4 justify-content-center md-mt-30px">
+    <ul class="pagination pagination-style-01 fs-13 fw-500 mb-0">
+        <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+            <a class="page-link" href="{% if page_obj.has_previous %}
+                ?page={{ page_obj.previous_page_number }}
+            {% else %}#{% endif %}">
+                <i class="feather icon-feather-arrow-left fs-18 d-xs-none"></i>
+            </a>
+        </li>
+        
+        {% for page_number in page_obj.paginator.get_elided_page_range %}
+            {% if page_number == page_obj.paginator.ELLIPSIS %}
+              {{page_number}}
+            {% else %}
+              <li class="page-item {% if page_obj.number == page_number %}active{% endif %}">
+                  <a href="?page={{ page_number }}" class="page-link">{{page_number}}</a>
+              </li>
+            {% endif %}
+        {% endfor %}
+
+
+
+        <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}" >
+            <a class="page-link" href="{% if page_obj.has_next %}
+                ?page={{ page_obj.next_page_number }}
+            {% else %}#{% endif %}">
+                <i class="feather icon-feather-arrow-right fs-18 d-xs-none"></i>
+          </a>
+      </li>
+    </ul>
+</div>
+    <!-- end pagination -->

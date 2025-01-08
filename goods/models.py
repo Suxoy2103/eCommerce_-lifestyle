@@ -54,7 +54,8 @@ class Category(MPTTModel):
         return "/".join(reversed(slugs))
 
     def get_absolute_url(self):
-        return reverse("goods:product_by_category", kwargs={'slug': self.slug})
+        slug_chain = self.get_slug_chain()
+        return reverse("goods:product_by_category", kwargs={'slug': slug_chain})
 
     def __str__(self):
         return self.name
