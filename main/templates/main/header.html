@@ -26,7 +26,7 @@
                                 <a href="https://www.instagram.com/" target="_blank"><i class="feather icon-feather-instagram d-inline-block me-5px"></i><span class="d-none d-xxl-inline-block">100k Followers</span></a>
                             </div>
                         </div> 
-                        <a class="navbar-brand" href="demo-fashion-store.html">
+                        <a class="navbar-brand" href="{% url "main:index" %}">
                             <img src="{% static "vendors/images/logos/fashion-store-logo-black.png" %}" data-at2x="{% static "vendors/images/fashion-store-logo-black@2x.png" %}" alt="" class="default-logo">
                             <img src="{% static "vendors/images/logos/fashion-store-logo-black.png" %}" data-at2x="{% static "vendors/images/fashion-store-logo-black@2x.png" %}" alt="" class="alt-logo">
                             <img src="{% static "vendors/images/logos/fashion-store-logo-black.png" %}" data-at2x="{% static "vendors/images/fashion-store-logo-black@2x.png" %}" alt="" class="mobile-logo">
@@ -164,7 +164,7 @@
                                     <i class="fa-solid fa-angle-down dropdown-toggle" id="navbarDropdownMenuLink3" role="button" data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3"> 
                                         <li><a href="{% url "main:about" %}">About</a></li>
-                                        <li><a href="demo-fashion-store-faq.html">Faq</a></li>
+                                        <li><a href="{% url "main:faq" %}">Faq</a></li>
                                         <li><a href="demo-fashion-store-wishlist.html">Wishlist</a></li>
                                         <li><a href="demo-fashion-store-account.html">Account</a></li>
                                         <li><a href="demo-fashion-store-cart.html">Cart</a></li>
@@ -172,7 +172,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="demo-fashion-store-contact.html" class="nav-link">Contact</a>
+                                    <a href="{% url "main:contact" %}" class="nav-link">Contact</a>
                                 </li>
                             </ul>
                         </div>

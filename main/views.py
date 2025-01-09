@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from goods.models import Category
+
 
 
 def index(request):
@@ -13,6 +13,24 @@ def index(request):
 
 def about(request):
     context = {
-        "title": "About us - Lifestyle Group"
+        "title": "About us - Lifestyle Group",
+        "name": 'About'
     }
     return render(request, 'main/about.html', context)
+
+
+def contact(request):
+    context = {
+        "title": "Contact us - Lifestyle Group",
+        "name": 'Contact'
+               }
+
+    return render(request, "main/contact.html", context)
+
+
+def faq(request):
+    context = {
+        "title": "FAQ`s - Lifestyle Group",
+        "name": 'FAQs'
+        }
+    return render(request, "main/faq.html", context)

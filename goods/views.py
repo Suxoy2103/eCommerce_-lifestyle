@@ -14,8 +14,8 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
 
         context["title"] = "All products - Shop | Lifestyle"
+        context["name"] = "Shop"
         return context
-    
 
 
 def product_detail(request, product, category_slugs):
@@ -30,26 +30,27 @@ class ProductFromCategory(ListView):
     paginate_by = 4
 
     def get_queryset(self):
-      slugs = self.kwargs['slug'].split('/')
-      category = Category.objects.filter(slug=slugs[0], parent=None).first()
+        slugs = self.kwargs['slug'].split('/')
+        category = Category.objects.filter(slug=slugs[0], parent=None).first()
 
-      if not category:
-          pass
-      
-      for slug in slugs[1:]:
-          category = category.children.filter(slug=slug).first()
-          if not category:
-              pass
-      
-      self.category = category
-      
-      categories = category.get_descendants(include_self=True)
+        if not category:
+            pass
 
-      queryset = Product.objects.filter(category__in=categories)
+        for slug in slugs[1:]:
+            category = category.children.filter(slug=slug).first()
+            if not category:
+                pass
 
-      return queryset
-    
+        self.category = category
+
+        categories = category.get_descendants(include_self=True)
+
+        queryset = Product.objects.filter(category__in=categories)
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = f"{self.category.parent.name}`s {self.category.name} | Lifestyle"
+        context["name"] = "Shop"
         return context
