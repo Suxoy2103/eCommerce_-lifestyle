@@ -11,9 +11,9 @@
                 <div class="row align-items-center"> 
                     <div class="col-12 breadcrumb breadcrumb-style-01 fs-14">
                         <ul>
-                            <li><a href="demo-fashion-store.html">Home</a></li>
-                            <li><a href="demo-fashion-store-shop.html">Shop</a></li>
-                            <li>Relaxed corduroy shirt</li>
+                            <li><a href="{% url "main:index" %}">Home</a></li>
+                            <li><a href="{% url "goods:index" %}">Shop</a></li>
+                            <li>{{ product.name }}</li>
                         </ul>
                     </div>
                 </div>
@@ -75,19 +75,23 @@
                             <div class="d-flex align-items-center mb-20px">
                                 <label class="text-dark-gray alt-font me-15px fw-500">Color</label>
                                 <ul class="shop-color mb-0">
-                                    <li>
-                                        <input class="d-none" type="radio" id="color-1" name="color" checked="">
-                                        <label for="color-1"><span style="background-color: #D4AF37"></span></label>
-                                    </li>
-                                    <li>
-                                        <input class="d-none" type="radio" id="color-2" name="color" checked="">
-                                        <label for="color-2"><span style="background-color: #5881bf"></span></label>
-                                    </li>
-                                    <li>
-                                        <input class="d-none" type="radio" id="color-3" name="color" checked="">
-                                        <label for="color-3"><span style="background-color: #87a968"></span></label>
-                                    </li>
-                                </ul>
+                                  
+                                    {% for product in same_products %}
+                                      <li>
+                                            <input class="d-none" type="radio" id="color-{{ product.id }}" name="color" checked="">
+                                            <label for="color-{{ product.id }}"><span style="background-image: url('{{ product.images.first.image.url }}');"><a href="{{ product.get_absolute_url }}"></a></span></label>
+                                      </li>
+                                    {% endfor %}
+
+                                      <li>
+                                          <input class="d-none" type="radio" id="color-2" name="color" checked="">
+                                          <label for="color-2"><span style="background-color: #5881bf"></span></label>
+                                      </li>
+                                      <li>
+                                          <input class="d-none" type="radio" id="color-1" name="color" checked="">
+                                          <label for="color-1"><span style="background-color: #87a968"></span></label>
+                                      </li>
+                                  </ul>
                             </div>
                             <div class="d-flex align-items-center mb-35px">
                                 <label class="text-dark-gray me-15px fw-500">Size</label>

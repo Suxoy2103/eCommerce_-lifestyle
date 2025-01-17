@@ -18,11 +18,27 @@ class ProductListView(ListView):
         return context
 
 
-def product_detail(request, product, category_slugs):
-    product = get_object_or_404(Product, slug=product)
-    context = {'product': product}
-    return render(request, 'goods/product_detail.html', context)
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "goods/product_detail.html"
+    slug_url_kwarg = "product"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+
+        # Найти товары того же цвета
+        colors = product.colors.all()
+
+
+        same_products = Product.objects.filter(name=product.name).exclude(id=product.id)
+
+        context['product'] = product
+        context["same_products"] = same_products
+        context["title"] = f"{product.name} | Lifestyle"
+        return context
+
+"""!!! Бьёт ошибка, не могу понять почему."""
 class ProductFromCategory(ListView):
     template_name = "goods/shop.html"
     context_object_name = 'goods'
@@ -31,13 +47,15 @@ class ProductFromCategory(ListView):
 
     def get_queryset(self):
         slugs = self.kwargs['slug'].split('/')
-        category = Category.objects.filter(slug=slugs[0], parent=None).first()
+        category = Category.objects.filter(slug=slugs[0], parent=None).first()  
+
+
 
         if not category:
             pass
 
         for slug in slugs[1:]:
-            category = category.children.filter(slug=slug).first()
+            category = category.children.filter(slug=slug).first() # !!! Бьёт ошибка, не могу понять почему.
             if not category:
                 pass
 

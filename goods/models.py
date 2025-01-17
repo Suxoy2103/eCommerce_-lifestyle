@@ -1,5 +1,6 @@
 from tkinter import ACTIVE
 import uuid
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 from django.urls import reverse
@@ -60,25 +61,23 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
-    # def save(self, *args, **kwargs):
-    #     """add parent slug to slug"""
-    #     if self.parent:
-    #         self.slug = f"{slugify(self.parent.name)}-{slugify(self.name)}"
-    #     # self.slug = unique_slugify(self, self.name, self.slug)
 
-    #     super().save(*args, **kwargs)
+class Color(models.Model):
+    name = models.CharField(max_length=50, unique=True, verbose_name="Color name")
+    hex_code = models.CharField(max_length=7, unique=True, verbose_name="Hex code", help_text="Example: #FFFFFF")
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
-    class Status(models.TextChoices):
-        ACTIVE = 'ACT', 'Active'
-        INACTIVE = 'INA', 'Inactive'
-
-    name = models.CharField(max_length=150, unique=True, verbose_name="Name")
-    slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name="URL")
+    name = models.CharField(max_length=150, verbose_name="Name")
+    slug = models.SlugField(max_length=200, blank=True, verbose_name="URL")
     sku_id = models.CharField(max_length=10, blank=True, null=True, verbose_name='SKU')
 
-    description = models.TextField(blank=True, null=True, verbose_name='Description')
+    description = models.TextField(max_length=500, blank=True, null=True, verbose_name='Description')
+
+    colors = models.ManyToManyField(to='Color', related_name='products', blank=True, verbose_name='Colors')
 
     price = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name='Price')
     discount = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name='Discount in %')
@@ -91,7 +90,6 @@ class Product(models.Model):
         auto_now_add=True, verbose_name="Created date", blank=True, null=True)
     updated = models.DateTimeField(auto_now=True, verbose_name='Updated date', blank=True, null=True)
 
-    is_active = models.CharField(max_length=3, choices=Status.choices, default=Status.ACTIVE, verbose_name='Status')
 
     def sell_price(self):
         if self.discount:
@@ -124,11 +122,25 @@ class Product(models.Model):
 class ProductImage(models.Model):
     """Model for product images"""
     image = models.ImageField(upload_to='goods_images', verbose_name="Product image")
+    # thumbnail = models.ImageField(
+    #     default="default.jpg",
+    #     verbose_name="Product image",
+    #     blank=True,
+    #     upload_to="images/thumbnails/",
+    #     validators=[
+    #         FileExtensionValidator(
+    #             allowed_extensions=("png", "jpg", "webp", "jpeg", "gif")
+    #         )
+    #     ],
+    # )
     product = models.ForeignKey(to='Product', on_delete=models.CASCADE, related_name='images', verbose_name='Product')
     alt_text = models.CharField(max_length=150, blank=True, null=True, verbose_name='Alt Text')
 
     def __str__(self):
         return f"Image for {self.product.name}"
+
+    """for colors"""
+    is_main = models.BooleanField(default=False, verbose_name='Main image')
 
 
 # class ShirtSize(models.Model):

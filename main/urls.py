@@ -1,12 +1,13 @@
 from django.urls import path
+from django.views.generic import TemplateView
 
-from main import views
+from .views import HomeView, AboutView, ContactView, FaqView
 
 app_name = 'main'
 
 urlpatterns = [
-    path("", views.index, name="index"),
-    path("about/", views.about, name="about"),
-    path("contact/", views.contact, name="contact"),
-    path("faq/", views.faq, name="faq"),
+    path("", HomeView.as_view(), name="index"),
+    path("about/", AboutView.as_view(), name="about"),
+    path("contact/", ContactView.as_view(), name="contact"),
+    path("faq/", FaqView.as_view(), name="faq"),
 ]

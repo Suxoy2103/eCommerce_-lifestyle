@@ -1,36 +1,27 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
+from django.views.generic.base import TemplateView
 
 
-
-def index(request):
-    context = {
-        "title": "lifestyle | Online Fashion, Men`s, Women`s & Kid`s Clothes | lifestyle DE",
+class HomeView(TemplateView):
+    template_name = 'main/index.html'
+    extra_context = {
+        "title": "lifestyle | Online Fashion, Men`s, Women`s & Children`s Clothes | Lifestyle Group DE"
     }
-    return render(request, 'main/index.html', context)
 
 
-def about(request):
-    context = {
-        "title": "About us - Lifestyle Group",
-        "name": 'About'
-    }
-    return render(request, 'main/about.html', context)
+
+class AboutView(TemplateView):
+    template_name = 'main/about.html'
+    extra_context = {"title": "About us - Lifestyle Group", "name": "Contact"}
 
 
-def contact(request):
-    context = {
-        "title": "Contact us - Lifestyle Group",
-        "name": 'Contact'
-               }
-
-    return render(request, "main/contact.html", context)
+class ContactView(TemplateView):
+    template_name = 'main/contact.html'
+    extra_context = {"title": "Contact us - Lifestyle Group", "name": "Contact"}
 
 
-def faq(request):
-    context = {
-        "title": "FAQ`s - Lifestyle Group",
-        "name": 'FAQs'
-        }
-    return render(request, "main/faq.html", context)
+class FaqView(TemplateView):
+    template_name = 'main/faq.html'
+    extra_context = {"title": "FAQ`s - Lifestyle Group", "name": "FAQs"}

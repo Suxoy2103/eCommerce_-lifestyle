@@ -18932,14 +18932,14 @@ canvas {
   display: flex;
 }
 .shop-color li > input[type=radio] + label span {
-  height: 32px;
-  width: 32px;
-  border-radius: 100%;
-  margin-right: 6px;
   display: inline-block;
-  position: relative;
-  vertical-align: middle;
-  cursor: pointer;
+    height: 100px;
+    width: 100px;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10;
+    overflow: hidden;
 }
 .shop-color li input[type=radio]:checked + label span:after {
   position: absolute;
