@@ -1,12 +1,7 @@
 from django.contrib import admin
 
 from django_mptt_admin.admin import DjangoMpttAdmin
-from goods.models import Color, Product, ProductImage, ProductSize, Category, ProductImage
-
-
-class ProductSizeInline(admin.TabularInline):
-    model = ProductSize
-    extra = 1
+from goods.models import Color, Product, ProductImage, Category, ProductItem
 
 
 class ProductImageInline(admin.TabularInline):
@@ -15,10 +10,13 @@ class ProductImageInline(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductImageInline, ProductSizeInline]
-    list_display = ["name", "category", "price", "discount", "quantity"]
-    search_fields = ["name", "category"]
-    prepopulated_fields = {"slug": ["name"]}
+    list_display = ["product_name", "category", "sku_id"]
+    search_fields = ["product_name", "category", "sku_id"]
+    prepopulated_fields = {"product_slug": ["product_name"]}
+
+@admin.register(ProductItem)
+class ProductItemAdmin(admin.ModelAdmin):
+    inlines = [ProductImageInline]
 
 
 @admin.register(Category)
@@ -31,9 +29,9 @@ class CategoryAdmin(DjangoMpttAdmin):
 @admin.register(Color)
 class ColorAdmin(admin.ModelAdmin):
     list_display = ['name', 'hex_code']
-    search_fields = ["name"]
+    search_fields = ["name", "hex_code"]
 
 @admin.register(ProductImage)
 class ProductImageAdmin(admin.ModelAdmin):
-    list_display = ["product", "is_main"]
+    list_display = ["product_item", "is_main"]
     list_filter = ["is_main"]
