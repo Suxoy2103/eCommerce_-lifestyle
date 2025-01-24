@@ -1,10 +1,11 @@
+from django.db.models import Prefetch
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, render
 
-from .models import Product, Category
+from .models import Product, ProductItem, Category, ProductImage
 
 
-class ProductListView(ListView):
+class ProductItemListView(ListView):
     model = Product
     template_name = 'goods/shop.html'
     context_object_name = 'goods'
@@ -15,6 +16,15 @@ class ProductListView(ListView):
 
         context["title"] = "All products - Shop | Lifestyle"
         context["name"] = "Shop"
+        context["products"] = ProductItem.objects.select_related(
+            "product"
+        ).prefetch_related('product__category',
+            Prefetch(
+                "images",
+                queryset=ProductImage.objects.filter(is_main=True).order_by("id"),
+            )
+
+        )
         return context
 
 

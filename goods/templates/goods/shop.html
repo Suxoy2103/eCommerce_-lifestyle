@@ -11,14 +11,14 @@
                         <ul class="shop-modern shop-wrapper grid-loading grid grid-4col xl-grid-3col sm-grid-2col xs-grid-1col gutter-extra-large text-center" data-anime='{ "el": "childs", "translateY": [-15, 0], "opacity": [0,1], "duration": 300, "delay": 0, "staggervalue": 150, "easing": "easeOutQuad" }'>
                             <li class="grid-sizer"></li>
                             
-                            {% for product in goods %}
+                            {% for product in products %}
                               <!-- start shop item -->
                               <li class="grid-item">
                                   <div class="shop-box mb-10px">
                                       <div class="shop-image mb-20px">
                                         {% if product.images.all %}
                                           <a href="{{ product.get_absolute_url }}">
-                                                <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}">
+                                                <img src="{{ product.images.first.image.url }}" alt="{{ product.product }}">
                                               {% else %}
                                                 <img src="{% static "vendors/images/Not found image.png" %}" alt="">
                                               {% endif %}
@@ -42,11 +42,11 @@
                                           </div>
                                       </div>
                                       <div class="shop-footer text-center">
-                                          <a href="{{ product.get_absolute_url }}" class="alt-font text-dark-gray fs-19 fw-500">{{ product.name|truncatechars:40 }}</a>
+                                          <a href="{{ product.get_absolute_url }}" class="alt-font text-dark-gray fs-19 fw-500">{{ product.product|truncatechars:40 }}</a>
                                           {% if product.discount %}
-                                            <div class="price lh-22 fs-16"><del>${{ product.price }}</del>${{ product.sell_price }}</div>
+                                            <div class="price lh-22 fs-16"><del>${{ product.original_price }}</del>${{ product.sale_price }}</div>
                                           {% else %}
-                                            <div class="price lh-22 fs-16">${{ product.price }}</div>
+                                            <div class="price lh-22 fs-16">${{ product.original_price }}</div>
                                           {% endif %}
                                       </div>
                                   </div>

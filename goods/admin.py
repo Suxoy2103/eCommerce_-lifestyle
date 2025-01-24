@@ -8,14 +8,21 @@ class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
 
+class ProductItemInline(admin.TabularInline):
+    model = ProductItem
+    extra = 1    
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["product_name", "category", "sku_id"]
-    search_fields = ["product_name", "category", "sku_id"]
-    prepopulated_fields = {"product_slug": ["product_name"]}
+    list_display = ["name", "category"]
+    search_fields = ["name", "category"]
+    prepopulated_fields = {"slug": ["name"]}
+    inlines = [ProductItemInline]
 
 @admin.register(ProductItem)
 class ProductItemAdmin(admin.ModelAdmin):
+    list_display = ["product", "color", "sku_id"]
+    search_fields = ["product", "color", "sku_id"]
     inlines = [ProductImageInline]
 
 

@@ -84,22 +84,26 @@ class ProductItem(models.Model):
 
     class Meta:
         db_table = "product_items"
-        verbose_name = "Product"
-        verbose_name_plural = "Products"
+        verbose_name = "Product Item"
+        verbose_name_plural = "Product Items"
+
+    def get_absolute_url(self):
+        category_slugs = self.product.category.get_slug_chain()
+        return reverse("goods:product_detail", args=[category_slugs, self.product.slug, self.sku_id])
+    
 
     def save(self, *args, **kwargs):
       if not self.sku_id:
-          root = self.category.get_root()
+          root = self.product.category.get_root()
           prefix = root.name[:1].upper()
           unique_code = str(uuid.uuid4().hex)[:6].upper()
           self.sku_id = f"{prefix}{unique_code}"
-      super(Product, self).save(*args, **kwargs)
+      super().save(*args, **kwargs)
 
 
 class Product(models.Model):
-    product_name = models.CharField(max_length=150, verbose_name="Name")
-    product_slug = models.SlugField(max_length=200, blank=True, verbose_name="URL")
-    sku_id = models.CharField(max_length=10, blank=True, null=True, verbose_name='SKU')
+    name = models.CharField(max_length=150, verbose_name="Name")
+    slug = models.SlugField(max_length=200, blank=True, verbose_name="URL")
 
     description = models.TextField(max_length=500, blank=True, null=True, verbose_name='Description')
     category = TreeForeignKey('Category', on_delete=models.PROTECT, related_name='products', verbose_name='Categories')
@@ -110,7 +114,7 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         category_slugs = self.category.get_slug_chain()
-        return reverse("goods:product_detail", args=[category_slugs, self.product_slug])
+        return reverse("goods:product_detail", args=[category_slugs, self.slug])
 
     class Meta:
 
@@ -119,15 +123,8 @@ class Product(models.Model):
         verbose_name_plural = "Products"
 
     def __str__(self):
-        return f'{self.name} Quantity - {self.quantity}'
+        return self.name
 
-    def save(self, *args, **kwargs):
-        if not self.sku_id:
-            root = self.category.get_root()
-            prefix = root.name[:1].upper()
-            unique_code = str(uuid.uuid4().hex)[:6].upper()
-            self.sku_id = f"{prefix}{unique_code}"
-        super(Product, self).save(*args, **kwargs)
 
 
 class ProductImage(models.Model):
@@ -145,7 +142,7 @@ class ProductImage(models.Model):
 
 
     def __str__(self):
-        return f"Image for {self.product.name}"
+        return f"Image for {self.image}"
 
 
 class ProductVariation(models.Model):
