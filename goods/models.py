@@ -12,11 +12,9 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Category(MPTTModel):
     name = models.CharField(max_length=150, verbose_name="Name")
     slug = models.SlugField(
-        max_length=200, blank=True, null=True, verbose_name="URL",)
+        max_length=200, blank=True, null=True, verbose_name="URL", db_index=True)
     description = models.TextField(max_length=300, blank=True, null=True, verbose_name="Description category")
-
     order = models.PositiveIntegerField(default=1, verbose_name='Order')
-
     parent = TreeForeignKey(
         "self",
         on_delete=models.CASCADE,
@@ -27,8 +25,10 @@ class Category(MPTTModel):
         verbose_name="Parent category",
     )
 
+
     class MPTTMeta:
         order_insertion_by = ("name",)
+
 
     class Meta:
         db_table = "categories"
@@ -66,6 +66,7 @@ class Color(models.Model):
     name = models.CharField(max_length=50, unique=True, verbose_name="Color name")
     hex_code = models.CharField(max_length=7, unique=True, verbose_name="Hex code", help_text="Example: #FFFFFF")
 
+
     class Meta:
       db_table = "color"
       verbose_name = "Color"
@@ -86,12 +87,12 @@ class ProductItem(models.Model):
         db_table = "product_items"
         verbose_name = "Product Item"
         verbose_name_plural = "Product Items"
+        ordering = ['id']
 
     def get_absolute_url(self):
         category_slugs = self.product.category.get_slug_chain()
         return reverse("goods:product_detail", args=[category_slugs, self.product.slug, self.sku_id])
     
-
     def save(self, *args, **kwargs):
       if not self.sku_id:
           root = self.product.category.get_root()
@@ -103,21 +104,14 @@ class ProductItem(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name="Name")
-    slug = models.SlugField(max_length=200, blank=True, verbose_name="URL")
-
+    slug = models.SlugField(max_length=200, blank=True, verbose_name="URL", unique=True)
     description = models.TextField(max_length=500, blank=True, null=True, verbose_name='Description')
     category = TreeForeignKey('Category', on_delete=models.PROTECT, related_name='products', verbose_name='Categories')
-
-
     publish_date = models.DateTimeField(
         auto_now_add=True, verbose_name="Publish date", blank=True, null=True)
-
-    def get_absolute_url(self):
-        category_slugs = self.category.get_slug_chain()
-        return reverse("goods:product_detail", args=[category_slugs, self.slug])
+    
 
     class Meta:
-
         db_table = "products"
         verbose_name = "Product"
         verbose_name_plural = "Products"
@@ -128,18 +122,15 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    """Model for product images"""
     image = models.ImageField(upload_to='goods_images', verbose_name="Product item image")
-
     product_item = models.ForeignKey(to='ProductItem', on_delete=models.CASCADE, related_name='images', verbose_name='Product Item', null=True, blank=True)
-    """for colors"""
-    is_main = models.BooleanField(default=False, verbose_name='Main image')
+    is_main = models.BooleanField(default=False, verbose_name='Main image') # for Photo on the shop page
+
 
     class Meta:
         db_table = 'product_image'
         verbose_name = 'Image'
         verbose_name_plural = 'Images'
-
 
     def __str__(self):
         return f"Image for {self.image}"
@@ -147,10 +138,9 @@ class ProductImage(models.Model):
 
 class ProductVariation(models.Model):
     product_item = models.ForeignKey(to='ProductItem', on_delete=models.CASCADE, related_name='variations', verbose_name='Product Item')
-    
     size = models.ForeignKey(to='Size', on_delete=models.CASCADE, related_name='variations', verbose_name='Size')
-
     qty_in_stock = models.PositiveIntegerField(default=0, verbose_name='Quantity in stock')
+
 
     class Meta:
         db_table = 'product_variation'
@@ -161,6 +151,7 @@ class Size(models.Model):
     size_id = models.AutoField(primary_key=True)
     size_name = models.CharField(max_length=50, unique=True, verbose_name='Size name')
     sort_order = models.PositiveIntegerField(default=1, verbose_name='Sort order')
+
 
     class Meta:
       db_table = 'size_option'

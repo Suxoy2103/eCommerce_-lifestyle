@@ -3,28 +3,23 @@ from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, render
 
 from .models import Product, ProductItem, Category, ProductImage
-
+from .utils import get_product_item_queryset
 
 class ProductItemListView(ListView):
     model = Product
     template_name = 'goods/shop.html'
-    context_object_name = 'goods'
+    context_object_name = 'products'
     paginate_by = 4
+
+    def get_queryset(self):
+        queryset = get_product_item_queryset()
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context["title"] = "All products - Shop | Lifestyle"
         context["name"] = "Shop"
-        context["products"] = ProductItem.objects.select_related(
-            "product"
-        ).prefetch_related('product__category',
-            Prefetch(
-                "images",
-                queryset=ProductImage.objects.filter(is_main=True).order_by("id"),
-            )
-
-        )
         return context
 
 
@@ -51,30 +46,19 @@ class ProductDetailView(DetailView):
 """!!! Бьёт ошибка, не могу понять почему."""
 class ProductFromCategory(ListView):
     template_name = "goods/shop.html"
-    context_object_name = 'goods'
+    context_object_name = 'products'
     category = None
     paginate_by = 4
 
     def get_queryset(self):
         slugs = self.kwargs['slug'].split('/')
         category = Category.objects.filter(slug=slugs[0], parent=None).first()  
-
-
-
-        if not category:
-            pass
-
         for slug in slugs[1:]:
-            category = category.children.filter(slug=slug).first() # !!! Бьёт ошибка, не могу понять почему.
-            if not category:
-                pass
+            category = category.children.filter(slug=slug).first()
 
         self.category = category
-
         categories = category.get_descendants(include_self=True)
-
-        queryset = Product.objects.filter(category__in=categories)
-
+        queryset = get_product_item_queryset(categories)
         return queryset
 
     def get_context_data(self, **kwargs):
