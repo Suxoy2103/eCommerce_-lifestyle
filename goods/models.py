@@ -3,6 +3,7 @@ import uuid
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
+from django.forms import ValidationError
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -101,6 +102,9 @@ class ProductItem(models.Model):
           self.sku_id = f"{prefix}{unique_code}"
       super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.product.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=150, verbose_name="Name")
@@ -120,20 +124,32 @@ class Product(models.Model):
         return self.name
 
 
-
 class ProductImage(models.Model):
-    image = models.ImageField(upload_to='goods_images', verbose_name="Product item image")
+    image = models.ImageField(
+        upload_to=lambda instance, filename: instance.image_folder(filename),
+        default='product_images/default.jpg',
+        blank=True,
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])], 
+        verbose_name="Product item image"
+        )
     product_item = models.ForeignKey(to='ProductItem', on_delete=models.CASCADE, related_name='images', verbose_name='Product Item', null=True, blank=True)
     is_main = models.BooleanField(default=False, verbose_name='Main image') # for Photo on the shop page
-
 
     class Meta:
         db_table = 'product_image'
         verbose_name = 'Image'
         verbose_name_plural = 'Images'
 
+    """Function for upload_to(change name of image and create folder)"""
+    def image_folder(self, filename):
+        unique_iq = uuid.uuid4().hex
+        filename = f"{self.product_item.product}-{self.product_item.sku_id}-{unique_iq}." + filename.split('.')[-1]
+        folder = f"product_images/{self.product_item.product.category}/{self.product_item.product}/{self.product_item.color}"
+        return "{0}/{1}".format(folder, filename)
+
     def __str__(self):
         return f"Image for {self.image}"
+
 
 
 class ProductVariation(models.Model):
@@ -144,7 +160,6 @@ class ProductVariation(models.Model):
 
     class Meta:
         db_table = 'product_variation'
-
 
 
 class Size(models.Model):

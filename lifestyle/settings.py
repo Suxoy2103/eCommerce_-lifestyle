@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "mptt",
     "django_mptt_admin",
+    "nested_admin",
 
     "main",
     "goods",
