@@ -26,10 +26,8 @@ class Category(MPTTModel):
         verbose_name="Parent category",
     )
 
-
     class MPTTMeta:
         order_insertion_by = ("name",)
-
 
     class Meta:
         db_table = "categories"
@@ -47,13 +45,11 @@ class Category(MPTTModel):
             )
         )
 
+
     def get_slug_chain(self):
-        slugs = []
-        current_node = self
-        while current_node:
-            slugs.append(current_node.slug)
-            current_node = current_node.parent
-        return "/".join(reversed(slugs))
+        return "/".join(
+            self.get_ancestors(include_self=True).values_list("slug", flat=True)
+        )
 
     def get_absolute_url(self):
         slug_chain = self.get_slug_chain()
@@ -149,7 +145,6 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.image}"
-
 
 
 class ProductVariation(models.Model):

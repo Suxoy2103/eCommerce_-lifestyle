@@ -9,7 +9,7 @@ class ProductItemListView(ListView):
     model = Product
     template_name = 'goods/shop.html'
     context_object_name = 'products'
-    paginate_by = 4
+    paginate_by = 12
 
     def get_queryset(self):
         queryset = get_product_item_queryset()
@@ -48,7 +48,7 @@ class ProductFromCategory(ListView):
     template_name = "goods/shop.html"
     context_object_name = 'products'
     category = None
-    paginate_by = 4
+    paginate_by = 12
 
     def get_queryset(self):
         slugs = self.kwargs['slug'].split('/')
