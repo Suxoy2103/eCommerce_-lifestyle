@@ -2,11 +2,11 @@ from django.db.models import Prefetch
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, render
 
-from .models import Product, ProductItem, Category, ProductImage
+from .models import Product, ProductItem, Category, ProductImage, Color
 from .utils import get_product_item_queryset
 
 class ProductItemListView(ListView):
-    model = Product
+    model = ProductItem
     template_name = 'goods/shop.html'
     context_object_name = 'products'
     paginate_by = 12
@@ -24,24 +24,21 @@ class ProductItemListView(ListView):
 
 
 class ProductDetailView(DetailView):
-    model = Product
+    model = ProductItem
     template_name = "goods/product_detail.html"
-    slug_url_kwarg = "product"
+    context_object_name = "product"
+
+    def get_object(self):
+        sku_id = self.kwargs['sku_id']
+        product = get_object_or_404(ProductItem, sku_id=sku_id)
+        return product
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        product = self.object
-
-        # Найти товары того же цвета
-        colors = product.colors.all()
-
-
-        same_products = Product.objects.filter(name=product.name).exclude(id=product.id)
-
-        context['product'] = product
-        context["same_products"] = same_products
-        context["title"] = f"{product.name} | Lifestyle"
+        context["title"] = f"{self.object} | Lifestyle"
         return context
+
+
 
 """!!! Бьёт ошибка, не могу понять почему."""
 class ProductFromCategory(ListView):
