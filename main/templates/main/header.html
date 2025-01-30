@@ -1,5 +1,6 @@
 {% load static %}
 {% load goods_tags %}
+ {% load mptt_tags %}
 
 <header class="header-with-topbar">
             <!-- start header top bar -->
@@ -50,22 +51,38 @@
                                     <div class="dropdown-menu submenu-content" aria-labelledby="navbarDropdownMenuLink1"> 
                                         <div class="d-lg-flex mega-menu m-auto flex-column">
                                             <div class="row row-cols-1 row-cols-lg-5 row-cols-md-3 row-cols-sm-3 mb-50px md-mb-25px xs-mb-15px">
+                                              
+                                              {% comment %} {% tag_categories as nodes %}
+                                              {% recursetree nodes %}
+                                                <div class='col'>
+                                                  <ul>
+                                                      <li class="sub-title">{{ node.name }}</li>
+                                                      {% if not node.is_leaf_node %}
+                                                        {{ children }}
+                                                      {% endif %}
+                                                  </ul>
+                                                </div>
+                                              {% endrecursetree %} {% endcomment %}
+
+
                                               {% load mptt_tags %}
                                               {% tag_categories as nodes %}
                                               {% recursetree nodes %}
-                                                  {% if node.is_root_node %}
                                                       <div class="col">
                                                           <ul>
                                                               <li class="sub-title">{{ node.name }}</li>
                                                               {% if not node.is_leaf_node %}
-                                                                  {% for child in node.get_children %}
+                                                                  {% for child in node.children.all %}
                                                                       <li><a href="{{ child.get_absolute_url }}">{{ child.name }}</a></li>
                                                                   {% endfor %}
                                                               {% endif %}
                                                           </ul>
                                                       </div>
-                                                  {% endif %}
                                               {% endrecursetree %}
+
+
+
+
                                             </div>
                                             <div class="row row-cols-1 row-cols-sm-2">
                                                 <div class="col">

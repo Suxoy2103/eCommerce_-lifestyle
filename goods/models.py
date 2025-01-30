@@ -47,8 +47,14 @@ class Category(MPTTModel):
 
 
     def get_slug_chain(self):
-        ancestors = self.get_ancestors(include_self=True) # get_ancestors - returns a queryset of all ancestors of the current node with the current node included
-        return "/".join(ancestors.values_list("slug", flat=True))
+        ancestors = []
+        category = self
+        while category:
+            ancestors.append(category.slug)
+            category = category.parent
+        return "/".join(reversed(ancestors))
+        # ancestors = self.get_ancestors(include_self=True) # get_ancestors - returns a queryset of all ancestors of the current node with the current node included
+        # return "/".join(ancestors.values_list("slug", flat=True))
 
     def get_absolute_url(self):
         slug_chain = self.get_slug_chain()

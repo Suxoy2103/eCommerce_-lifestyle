@@ -6,4 +6,5 @@ register = template.Library()
 
 @register.simple_tag()
 def tag_categories():
-    return Category.objects.prefetch_related("children").all().order_by("lft")
+    queryset = Category.objects.prefetch_related("parent", "children").order_by("lft")
+    return queryset
