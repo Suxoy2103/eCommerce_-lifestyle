@@ -80,7 +80,7 @@ class Color(models.Model):
 class ProductItem(models.Model):
     product = models.ForeignKey(to='Product', on_delete=models.CASCADE, related_name='product_items')
     color = models.ForeignKey(to='Color', on_delete=models.CASCADE, related_name='pro_item_col')
-    sku_id = models.CharField(max_length=10, blank=True, null=True, verbose_name='SKU')
+    sku_id = models.CharField(max_length=10, blank=True, null=True, verbose_name='SKU', unique=True)
     original_price = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name='Price')
     sale_price = models.DecimalField(default=0.00, max_digits=7, decimal_places=2, verbose_name='Sale price')
 
