@@ -1,13 +1,10 @@
-from tkinter import ACTIVE
-import uuid
 from django.core.validators import FileExtensionValidator
 from django.db import models
-
-from django.forms import ValidationError
 from django.urls import reverse
-from django.utils import timezone
-from django.utils.text import slugify
+
 from mptt.models import MPTTModel, TreeForeignKey
+
+import uuid
 
 
 class Category(MPTTModel):
@@ -114,7 +111,6 @@ class Product(models.Model):
     category = TreeForeignKey('Category', on_delete=models.PROTECT, related_name='products', verbose_name='Categories')
     publish_date = models.DateTimeField(
         auto_now_add=True, verbose_name="Publish date", blank=True, null=True)
-    
 
     class Meta:
         db_table = "products"
@@ -125,14 +121,18 @@ class Product(models.Model):
         return self.name
 
 
+def image_for_upload(instance, filename):
+    return instance.image_folder(filename)
+
+
 class ProductImage(models.Model):
     image = models.ImageField(
-        upload_to=lambda instance, filename: instance.image_folder(filename),
-        default='product_images/default.jpg',
+        upload_to=image_for_upload,
+        default="product_images/default.jpg",
         blank=True,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])], 
-        verbose_name="Product item image"
-        )
+        validators=[FileExtensionValidator(allowed_extensions=["jpg", "jpeg", "png"])],
+        verbose_name="Product item image",
+    )
     product_item = models.ForeignKey(to='ProductItem', on_delete=models.CASCADE, related_name='images', verbose_name='Product Item', null=True, blank=True)
     is_main = models.BooleanField(default=False, verbose_name='Main image') # for Photo on the shop page
 

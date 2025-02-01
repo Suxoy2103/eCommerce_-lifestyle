@@ -30,14 +30,15 @@ class ProductDetailView(DetailView):
 
     def get_object(self):
         sku_id = self.kwargs['sku_id']
-        product = get_object_or_404(ProductItem, sku_id=sku_id)
-        return product
+        queryset = ProductItem.objects.select_related('product'
+          ).only('product__name', 'product__description'
+            ).prefetch_related('images', 'color', 'variations').get(sku_id=sku_id)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["title"] = f"{self.object} | Lifestyle"
         return context
-
 
 
 """!!! Бьёт ошибка, не могу понять почему."""

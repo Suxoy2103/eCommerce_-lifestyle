@@ -18923,25 +18923,29 @@ canvas {
   padding: 0;
   display: flex;
 }
+
 .shop-color li {
   position: relative;
   display: inline-block;
   vertical-align: middle;
 }
-.shop-color li > input[type=radio] + label {
+
+.shop-color li>input[type=radio]+label {
   display: flex;
 }
-.shop-color li > input[type=radio] + label span {
+
+.shop-color li>input[type=radio]+label span {
+  height: 32px;
+  width: 32px;
+  border-radius: 100%;
+  margin-right: 6px;
   display: inline-block;
-    height: 100px;
-    width: 100px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 10;
-    overflow: hidden;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
 }
-.shop-color li input[type=radio]:checked + label span:after {
+
+.shop-color li input[type=radio]:checked+label span:after {
   position: absolute;
   top: 2px;
   left: 2px;
